@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<launch>
+  <param command="$(find xacro)/xacro $(find robot_e_description)/urdf/robot_e.xacro" name="robot_description"/>
+  <node args="-param robot_description -urdf -model robot_e" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false"/>
+  
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find robot_e_description)/urdf/n_model.world" />
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+  
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  
+ <node pkg="tf" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 map odom 100" />
+  
+  <node pkg="tf" type="static_transform_publisher" name="ebot_base_to_base_link" args="0 0 0 0 0 0 ebot_base base_link 50" />
+ 
+ <node pkg="tf" type="static_transform_publisher" name="imu_broadcaster" args="0 0 0 0 0 0 base_link imu_1 50" />
+  
+ <!--<node name="tf_odom" pkg="robot_e_description" type="tf_odom.py" args="$(find robot_e_description)/src" />-->
+  
+  <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" args="0 0 0 3.14 0 0 base_link laser 50" />
+  
+</launch>

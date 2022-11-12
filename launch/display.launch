@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+  <arg default="$(find robot_e_description)/urdf/robot_e.xacro" name="model"/>
+  <arg default="true" name="gui"/>
+  
+  <arg default="$(find robot_e_description)/launch/urdf.rviz" name="rvizconfig"/>
+  <arg name="open_rviz" default="true"/>
+  
+  <arg name="use_sim_time" value="true"/>
+  
+  <param command="$(find xacro)/xacro $(arg model)" name="robot_description"/>
+  <param name="use_gui" value="$(arg gui)"/>
+  
+     <arg name="map_file" default="$(find robot_e_description)/maze_map1.yaml"/>       
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" respawn="true" />
+ <param name="global_planner" value="global_planner/GlobalPlanner"/>
+ <param name="local_planner" value="local_planner/LocalPlanner"/>
+ 
+  
+  <include file="$(find robot_e_description)/launch/mapping.launch"/>
+  <include file="$(find robot_e_description)/launch/gmapping.launch"/>
+  <!--<node pkg="explore_lite" type="explore" respawn="true" name="explore" output="screen">
+    <rosparam file="$(find robot_e_description)/param/exploration.yaml" command="load" />
+  </node>-->
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"  args="-d $(find robot_e_description)/launch/urdf.rviz"/>
+  </group>
+
+</launch>

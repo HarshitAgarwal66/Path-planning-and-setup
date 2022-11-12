@@ -1,0 +1,27 @@
+robot_e_controller:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  # Position Controllers --------------------------------------
+  cam_y_j_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: cam_y_j
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  r_f_w_j_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: r_f_w_j
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  r_b_w_j_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: r_b_w_j
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  l_f_w_j_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_f_w_j
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  l_b_w_j_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_b_w_j
+    pid: {p: 100.0, i: 0.01, d: 10.0}
